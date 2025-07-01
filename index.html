@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Bank</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .form-container {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-md mx-auto">
+
+        <!-- Login Section -->
+        <div id="login-section" class="bg-white dark:bg-gray-800/50 form-container border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-2">Welcome Back</h1>
+            <p class="text-center text-gray-500 dark:text-gray-400 mb-8">Please enter your details to login.</p>
+            
+            <div id="login-error" class="hidden bg-red-100 dark:bg-red-900/50 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg relative mb-6" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <span class="block sm:inline">Invalid credentials. Please try again.</span>
+            </div>
+
+            <form id="login-form">
+                <div class="mb-4">
+                    <label for="fullName" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Full Name</label>
+                    <input type="text" id="fullName" class="shadow-sm appearance-none border border-gray-300 dark:border-gray-600 rounded-lg w-full py-3 px-4 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="e.g., John Doe" required>
+                </div>
+                <div class="mb-4">
+                    <label for="cvc" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">CVC</label>
+                    <input type="password" id="cvc" class="shadow-sm appearance-none border border-gray-300 dark:border-gray-600 rounded-lg w-full py-3 px-4 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="***" required>
+                </div>
+                <div class="mb-6">
+                    <label for="ctrn" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">CTRN</label>
+                    <input type="password" id="ctrn" class="shadow-sm appearance-none border border-gray-300 dark:border-gray-600 rounded-lg w-full py-3 px-4 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="****" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105">
+                    Login
+                </button>
+            </form>
+        </div>
+
+        <!-- Account Section -->
+        <div id="account-section" class="hidden bg-white dark:bg-gray-800/50 form-container border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-8">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Account Details</h2>
+                    <p id="account-holder" class="text-gray-600 dark:text-gray-400"></p>
+                </div>
+                <button id="logout-button" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors">
+                    Logout
+                </button>
+            </div>
+
+            <div class="bg-blue-500 text-white rounded-xl p-6 mb-8 shadow-lg">
+                <p class="text-lg text-blue-200">Available Balance</p>
+                <p id="account-balance" class="text-4xl font-bold">0.00 AED</p>
+            </div>
+
+            <div id="transaction-message" class="hidden bg-green-100 dark:bg-green-900/50 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-300 px-4 py-3 rounded-lg relative mb-6" role="alert">
+                <strong class="font-bold">Success!</strong>
+                <span class="block sm:inline">Your transaction request has been sent for processing.</span>
+            </div>
+            
+            <div id="transaction-error" class="hidden bg-red-100 dark:bg-red-900/50 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg relative mb-6" role="alert">
+                <!-- Error message will be inserted here -->
+            </div>
+
+
+            <!-- Transaction Forms -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Deposit -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Deposit</h3>
+                    <form id="deposit-form">
+                        <div class="mb-4">
+                            <label for="deposit-amount" class="sr-only">Deposit Amount</label>
+                            <input type="number" id="deposit-amount" class="shadow-sm appearance-none border border-gray-300 dark:border-gray-600 rounded-lg w-full py-3 px-4 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Amount in AED" min="0.01" step="0.01" required>
+                        </div>
+                        <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105">
+                            Request Deposit
+                        </button>
+                    </form>
+                </div>
+                <!-- Withdraw -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Withdraw</h3>
+                    <form id="withdraw-form">
+                        <div class="mb-4">
+                            <label for="withdraw-amount" class="sr-only">Withdraw Amount</label>
+                            <input type="number" id="withdraw-amount" class="shadow-sm appearance-none border border-gray-300 dark:border-gray-600 rounded-lg w-full py-3 px-4 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-500" placeholder="Amount in AED" min="0.01" step="0.01" required>
+                        </div>
+                        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105">
+                            Request Withdraw
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- EDITABLE ACCOUNT DATA ---
+        // You can easily add, remove, or edit accounts in this list.
+        const accounts = [
+            {
+                name: "Henry meng verschueren",
+                cvc: "472",
+                ctrn: "6912",
+                balance: 5.00
+            },
+            // To add a new account, copy the block above and paste it here.
+            // {
+            //     name: "New User",
+            //     cvc: "000",
+            //     ctrn: "0000",
+            //     balance: 100.00
+            // }
+        ];
+        // --- END OF EDITABLE DATA ---
+
+        const loginSection = document.getElementById('login-section');
+        const accountSection = document.getElementById('account-section');
+        const loginForm = document.getElementById('login-form');
+        const logoutButton = document.getElementById('logout-button');
+        const depositForm = document.getElementById('deposit-form');
+        const withdrawForm = document.getElementById('withdraw-form');
+        
+        const loginError = document.getElementById('login-error');
+        const transactionMessage = document.getElementById('transaction-message');
+        const transactionError = document.getElementById('transaction-error');
+
+        let currentUser = null;
+
+        // Function to handle login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginError.classList.add('hidden');
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const cvc = document.getElementById('cvc').value.trim();
+            const ctrn = document.getElementById('ctrn').value.trim();
+
+            // Find the user account. Note the case-insensitive check for the name.
+            const foundUser = accounts.find(
+                acc => acc.name.toLowerCase() === fullName.toLowerCase() &&
+                       acc.cvc === cvc &&
+                       acc.ctrn === ctrn
+            );
+
+            if (foundUser) {
+                currentUser = foundUser;
+                showAccountView();
+            } else {
+                loginError.classList.remove('hidden');
+                loginForm.reset();
+            }
+        });
+
+        // Function to show the account view
+        function showAccountView() {
+            loginSection.classList.add('hidden');
+            accountSection.classList.remove('hidden');
+
+            document.getElementById('account-holder').textContent = `Welcome, ${currentUser.name}`;
+            updateBalanceDisplay();
+        }
+
+        // Function to update the balance display
+        function updateBalanceDisplay() {
+            document.getElementById('account-balance').textContent = `${currentUser.balance.toFixed(2)} AED`;
+        }
+
+        // Function to handle logout
+        logoutButton.addEventListener('click', () => {
+            currentUser = null;
+            accountSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+            loginForm.reset();
+            depositForm.reset();
+            withdrawForm.reset();
+            hideMessages();
+        });
+        
+        // Function to hide all messages
+        function hideMessages() {
+            loginError.classList.add('hidden');
+            transactionMessage.classList.add('hidden');
+            transactionError.classList.add('hidden');
+        }
+
+        // Function to show a transaction error message
+        function showTransactionError(message) {
+            transactionError.innerHTML = `<strong class="font-bold">Error!</strong> <span class="block sm:inline">${message}</span>`;
+            transactionError.classList.remove('hidden');
+            transactionMessage.classList.add('hidden');
+        }
+
+
+        // Function to create and trigger a mailto link for transactions
+        function sendTransactionRequest(type, amount) {
+            const recipient = "alexanderdrakeverschueren@gmail.com";
+            const subject = `${type} Request from ${currentUser.name}`;
+            const body = `
+                A new transaction request has been submitted.
+
+                Customer Details:
+                - Name: ${currentUser.name}
+                - CVC: ${currentUser.cvc}
+                - CTRN: ${currentUser.ctrn}
+
+                Request Details:
+                - Type: ${type}
+                - Amount: ${amount.toFixed(2)} AED
+
+                Please review and process this request.
+            `;
+            
+            const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+
+            hideMessages();
+            transactionMessage.classList.remove('hidden');
+        }
+
+        // Handle deposit request
+        depositForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            hideMessages();
+            const amount = parseFloat(document.getElementById('deposit-amount').value);
+
+            if (isNaN(amount) || amount <= 0) {
+                showTransactionError('Please enter a valid positive amount to deposit.');
+                return;
+            }
+
+            sendTransactionRequest('Deposit', amount);
+            depositForm.reset();
+        });
+
+        // Handle withdraw request
+        withdrawForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            hideMessages();
+            const amount = parseFloat(document.getElementById('withdraw-amount').value);
+
+            if (isNaN(amount) || amount <= 0) {
+                showTransactionError('Please enter a valid positive amount to withdraw.');
+                return;
+            }
+            
+            const maxWithdrawal = 20.00;
+            const availableBalance = currentUser.balance;
+
+            if (amount > availableBalance) {
+                showTransactionError(`Withdrawal amount exceeds your balance of ${availableBalance.toFixed(2)} AED.`);
+                return;
+            }
+
+            if (amount > maxWithdrawal) {
+                showTransactionError(`Maximum withdrawal per transaction is ${maxWithdrawal.toFixed(2)} AED. Please enter a smaller amount.`);
+                return;
+            }
+
+            sendTransactionRequest('Withdrawal', amount);
+            withdrawForm.reset();
+        });
+
+    </script>
+</body>
+</html>
