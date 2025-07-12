@@ -20,7 +20,6 @@
 
     <div class="w-full max-w-md mx-auto">
 
-        <!-- Login Section -->
         <div id="login-section" class="bg-white dark:bg-gray-800/50 form-container border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-8">
             <h1 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-2">Welcome Back</h1>
             <p class="text-center text-gray-500 dark:text-gray-400 mb-8">Please enter your details to login.</p>
@@ -49,7 +48,6 @@
             </form>
         </div>
 
-        <!-- Account Section -->
         <div id="account-section" class="hidden bg-white dark:bg-gray-800/50 form-container border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-8">
             <div class="flex justify-between items-center mb-6">
                 <div>
@@ -72,13 +70,10 @@
             </div>
             
             <div id="transaction-error" class="hidden bg-red-100 dark:bg-red-900/50 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg relative mb-6" role="alert">
-                <!-- Error message will be inserted here -->
-            </div>
+                </div>
 
 
-            <!-- Transaction Forms -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Deposit -->
                 <div>
                     <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Deposit</h3>
                     <form id="deposit-form">
@@ -91,13 +86,12 @@
                         </button>
                     </form>
                 </div>
-                <!-- Withdraw -->
                 <div>
                     <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Withdraw</h3>
                     <form id="withdraw-form">
                         <div class="mb-4">
                             <label for="withdraw-amount" class="sr-only">Withdraw Amount</label>
-                            <input type="number" id="withdraw-amount" class="shadow-sm appearance-none border border-gray-300 dark:border-gray-600 rounded-lg w-full py-3 px-4 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-500" placeholder="Amount in AED" min="0.01" step="0.01" required>
+                            <input type="number" id="withdraw-amount" class="shadow-sm appearance-none border border-gray-300 dark:border-gray-600 rounded-lg w-full py-3 px-4 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:focus:ring-yellow-500" placeholder="Amount in AED" min="0.01" step="0.01" required>
                         </div>
                         <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105">
                             Request Withdraw
@@ -264,7 +258,8 @@
                 return;
             }
             
-            const maxWithdrawal = 20.00;
+            // Changed from 20.00 to 500.00
+            const maxWithdrawal = 500.00; 
             const availableBalance = currentUser.balance;
 
             if (amount > availableBalance) {
